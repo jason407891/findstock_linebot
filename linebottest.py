@@ -40,17 +40,16 @@ def echo(event):
             collection = db['linestock']
             for item in itemlist:
                 sendmsg="價格資訊\n"
-                results = collection.find({"pn": item})
-                for result in results:
-                    pn=result['pn']
-                    mfr=result['mfr']
-                    stock=result['qty']
-                    sendmsg += f"產品編號:{pn}\n製造商:{mfr}\n庫存數量:{stock}\n"
-                    price_list = json.loads(result['price'])
-                    for price in price_list:
-                        num = price['goods_num']
-                        p = price['goods_price']
-                        sendmsg += f"數量:{num} 價格:{p}"
+                result = collection.find({"pn": item})
+                pn=result['pn']
+                mfr=result['mfr']
+                stock=result['qty']
+                sendmsg += f"產品編號:{pn}\n製造商:{mfr}\n庫存數量:{stock}\n"
+                price_list = json.loads(result['price'])
+                for price in price_list:
+                    num = price['goods_num']
+                    p = price['goods_price']
+                    sendmsg += f"數量:{num} 價格:{p}"
 
                 line_bot_api.reply_message(
                     event.reply_token,
