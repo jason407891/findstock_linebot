@@ -38,9 +38,10 @@ def echo(event):
             itemlist = text.splitlines()
             db = client["pteam"]
             collection = db['linestock']
+            sendmsg="價格資訊\n"
+
             for item in itemlist:
                 result = collection.find_one({"pn": item})
-                sendmsg="價格資訊\n"
                 if result:
                     pn = result['pn']
                     mfr = result['mfr']
@@ -55,10 +56,10 @@ def echo(event):
                 else:
                     sendmsg += f"未找到產品編號 {item}\n"
 
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text=sendmsg)
-                )
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=sendmsg)
+            )
                 
 
 if __name__ == "__main__":
