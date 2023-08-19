@@ -6,6 +6,8 @@ from linebot import LineBotApi, WebhookHandler
 import pymongo
 import json
 
+client = pymongo.MongoClient("mongodb+srv://root:12root28@cluster0.r39qy0s.mongodb.net/?retryWrites=true&w=majority")
+
 app = Flask(__name__)
 
 # LINE 聊天機器人的基本資料
@@ -34,7 +36,6 @@ def quote(event):
         text = event.message.text
         itemlist = list(text)
         
-        client = pymongo.MongoClient("mongodb+srv://root:12root28@cluster0.r39qy0s.mongodb.net/?retryWrites=true&w=majority")
         db = client["pteam"]
         collection = db['linestock']
 
