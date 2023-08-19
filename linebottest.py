@@ -35,7 +35,7 @@ def echo(event):
     if event.source.user_id != "123":
         text = event.message.text
         if text:
-            itemlist = text.splitlines()
+            itemlist = text.split(",")
             db = client["pteam"]
             collection = db['linestock']
             for item in itemlist:
