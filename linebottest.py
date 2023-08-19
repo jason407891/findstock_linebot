@@ -35,10 +35,10 @@ def quote(event):
     if event.source.user_id != "U22283dfd5892369dfc699645887e3407":
         text = event.message.text
         itemlist = list(text)
-        
+        print(123123)
         db = client["pteam"]
         collection = db['linestock']
-
+        print(123)
         for item in itemlist:
             sendmsg=""
             results = collection.find({"pn": item})
