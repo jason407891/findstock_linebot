@@ -41,7 +41,7 @@ def quote(event):
             collection = db['linestock']
             app.logger.info("This is an info messagessssssss")
             for item in itemlist:
-                sendmsg=""
+                sendmsg="價格資訊\n"
                 results = collection.find({"pn": item})
                 for result in results:
                     pn=result['pn']
@@ -56,7 +56,7 @@ def quote(event):
 
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage("報價",text=sendmsg)
+                    TextSendMessage(text=sendmsg)
                 )
 
 if __name__ == "__main__":
