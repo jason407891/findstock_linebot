@@ -31,15 +31,13 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def quote(event):
+def echo(event):
     if event.source.user_id != "U22283dfd5892369dfc699645887e3407":
         text = event.message.text
-        app.logger.info("This is an info message")
         if text:
             itemlist = list(text)
             db = client["pteam"]
             collection = db['linestock']
-            app.logger.info("This is an info messagessssssss")
             for item in itemlist:
                 sendmsg="價格資訊\n"
                 results = collection.find({"pn": item})
@@ -56,7 +54,7 @@ def quote(event):
 
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=event.message.text)
+                    TextSendMessage(text=sendmsg)
                 )
 
 if __name__ == "__main__":
