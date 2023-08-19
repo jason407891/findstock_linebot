@@ -39,17 +39,21 @@ def echo(event):
             db = client["pteam"]
             collection = db['linestock']
             for item in itemlist:
-                sendmsg="價格資訊\n"
-                result = collection.find({"pn": item})
-                pn=result['pn']
-                mfr=result['mfr']
-                stock=result['qty']
-                sendmsg += f"產品編號:{pn}\n製造商:{mfr}\n庫存數量:{stock}\n"
-                price_list = json.loads(result['price'])
-                for price in price_list:
-                    num = price['goods_num']
-                    p = price['goods_price']
-                    sendmsg += f"數量:{num} 價格:{p}"
+                result = collection.find_one({"pn": item})
+                
+                if result:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += f"產品編號: {pn}\n製造商: {mfr}\n庫存數量: {stock}\n"
+                    
+                    price_list = json.loads(result['price'])
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += f"數量: {num} 價格: {p}\n"
+                else:
+                    sendmsg += f"未找到產品編號 {item}\n"
 
                 line_bot_api.reply_message(
                     event.reply_token,
