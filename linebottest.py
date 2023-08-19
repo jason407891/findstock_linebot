@@ -33,6 +33,11 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
     if event.source.user_id != "U22283dfd5892369dfc699645887e3407":
+        line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=event.message.text)
+                )
+        '''
         text = event.message.text
         if text:
             itemlist = list(text)
@@ -56,6 +61,7 @@ def echo(event):
                     event.reply_token,
                     TextSendMessage(text=sendmsg)
                 )
+                '''
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
