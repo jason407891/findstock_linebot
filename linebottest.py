@@ -32,31 +32,30 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def quote(event):
-    if event.source.user_id != "U22283dfd5892369dfc699645887e3407":
-        text = event.message.text
-        itemlist = list(text)
-        print(123123)
-        db = client["pteam"]
-        collection = db['linestock']
-        print(123)
-        for item in itemlist:
-            sendmsg=""
-            results = collection.find({"pn": item})
-            for result in results:
-                pn=result['pn']
-                mfr=result['mfr']
-                stock=result['qty']
-                sendmsg += f"產品編號:{pn}\n製造商:{mfr}\n庫存數量:{stock}\n"
-                price_list = json.loads(result['price'])
-                for price in price_list:
-                    num = price['goods_num']
-                    p = price['goods_price']
-                    sendmsg += f"數量:{num} 價格:{p}"
+    text = event.message.text
+    itemlist = list(text)
+    print(123123)
+    db = client["pteam"]
+    collection = db['linestock']
+    print(123)
+    for item in itemlist:
+        sendmsg=""
+        results = collection.find({"pn": item})
+        for result in results:
+            pn=result['pn']
+            mfr=result['mfr']
+            stock=result['qty']
+            sendmsg += f"產品編號:{pn}\n製造商:{mfr}\n庫存數量:{stock}\n"
+            price_list = json.loads(result['price'])
+            for price in price_list:
+                num = price['goods_num']
+                p = price['goods_price']
+                sendmsg += f"數量:{num} 價格:{p}"
 
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=sendmsg)
-            )
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=sendmsg)
+        )
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
