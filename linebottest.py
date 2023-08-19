@@ -40,6 +40,7 @@ def echo(event):
             collection = db['linestock']
             for item in itemlist:
                 result = collection.find_one({"pn": item})
+                sendmsg="價格資訊\n"
                 if result:
                     pn = result['pn']
                     mfr = result['mfr']
