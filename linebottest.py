@@ -53,8 +53,9 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += f"數量: {num} 價格: {p}\n"
+                    sendmsg+="\n"
                 else:
-                    sendmsg += f"未找到產品編號 {item}\n"
+                    sendmsg += f"未找到產品編號 {item}\n\n"
 
             line_bot_api.reply_message(
                 event.reply_token,
