@@ -56,7 +56,7 @@ def quote(event):
 
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=sendmsg)
+                    TextSendMessage("報價",text=sendmsg)
                 )
 
 if __name__ == "__main__":
