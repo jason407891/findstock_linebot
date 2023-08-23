@@ -38,7 +38,7 @@ def echo(event):
             itemlist = text.splitlines()
             db = client["pteam"]
             collection = db['linestock']
-            sendmsg="價格資訊\n"
+            sendmsg="價格資訊\n\n"
 
             for item in itemlist:
                 results = collection.find({"pn": item})
