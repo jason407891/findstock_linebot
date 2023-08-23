@@ -44,17 +44,16 @@ def echo(event):
                 results = collection.find({"pn": item})
                 if results:
                     for result in results:
-                        print(result)
                         pn = result['pn']
                         mfr = result['mfr']
                         stock = result['qty']
-                        sendmsg += f"產品編號: {pn}\n製造商: {mfr}\n庫存數量: {stock}\n"
+                        sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                         
                         price_list = json.loads(result['price'])
                         for price in price_list:
                             num = price['goods_num']
                             p = price['goods_price']
-                            sendmsg += f"數量: {num} 價格: {p}\n"
+                            sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                         sendmsg+="\n"
                 else:
                     sendmsg += f"未找到產品編號 {item}\n\n"
