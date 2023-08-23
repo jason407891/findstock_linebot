@@ -42,7 +42,7 @@ def echo(event):
 
             for item in itemlist:
                 results = collection.find({"pn": item})
-                if results:
+                if results.count() !=0:
                     for result in results:
                         pn = result['pn']
                         mfr = result['mfr']
