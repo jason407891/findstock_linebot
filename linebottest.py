@@ -56,7 +56,7 @@ def echo(event):
                             sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                         sendmsg+="\n"
                 else:
-                    sendmsg += f"未123123找到產品編號 {item}\n\n"
+                    sendmsg += f"未找到產品編號 {item}\n\n"
 
             line_bot_api.reply_message(
                 event.reply_token,
