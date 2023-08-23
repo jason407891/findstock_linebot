@@ -44,6 +44,7 @@ def echo(event):
                 results = collection.find({"pn": item})
                 if results:
                     for result in results:
+                        print(result)
                         pn = result['pn']
                         mfr = result['mfr']
                         stock = result['qty']
