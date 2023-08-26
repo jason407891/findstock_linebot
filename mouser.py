@@ -77,45 +77,5 @@ def getdata(pn):
         return {"nodata"}
 
 
-wb = openpyxl.load_workbook('input.xlsx')
-ws = wb['工作表1']
-items = []
-qtys=[]
-for row in ws.iter_rows(min_row=2, values_only=True):  # 從第二行開始讀取
-    if row[0]:  # 如果該行的第一個欄位不為空
-        items.append(row[0])
-        qtys.append(row[1])
-
-
-# 建立新的 Excel 檔案
-output_wb = openpyxl.Workbook()
-output_ws = output_wb.active
-output_ws.append(["搜尋編號","庫存","製造商","產品編號","數量級距","價格(USD)"])
-qtyposition=0
-# 在新的 Excel 檔案中寫入資料
-for item in items:
-    #qty對應的位子
-    qtyvalue=qtys[qtyposition]
-    print(item)
-    time.sleep(1)
-    result = getdata(item)
-    if result != {"nodata"} and result:
-        for part_number, part_info in result.items():
-            row = [part_number, part_info['Availability'], part_info['Manufacturer'], part_info['ManufacturerPartNumber']]
-            
-            price_breaks = part_info['PriceBreaks']
-            print(price_breaks)
-            breakprice=getbreak(price_breaks,qtyvalue)
-            row.append(breakprice[0])
-            row.append(breakprice[1])
-
-            output_ws.append(row)
-    else:
-        output_ws.append([item,"NA"])
-    qtyposition+=1
-
-# 儲存新的 Excel 檔案
-output_wb.save('output.xlsx')
-
 
 
