@@ -103,9 +103,9 @@ def handle_file(event):
                 for part_number, part_info in result.items():
                     price_breaks = part_info['PriceBreaks']
                     breakprice=mouser.getbreak(price_breaks,qtyvalue)
-                    output_text += f"{part_info['Availability']}\t{part_info['Manufacturer']}\t{part_info['ManufacturerPartNumber']}\t{breakprice[0]}\t{breakprice[1]}\n"
+                    output_text += f"{part_info['Availability']}/{part_info['Manufacturer']}/{part_info['ManufacturerPartNumber']}/{breakprice[0]}/{breakprice[1]}\n"
             else:
-                output_text += f"{item}\tNA\n"
+                output_text += f"{item}/NA\n"
             qtyposition+=1
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output_text))
 
