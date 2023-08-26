@@ -1,10 +1,14 @@
 # 載入需要的模組
 from flask import Flask, request, abort
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FileMessage
 from linebot import LineBotApi, WebhookHandler
 import pymongo
 import json
+import openpyxl
+import os
+import mouser
+import time
 
 client = pymongo.MongoClient("mongodb+srv://root:12root28@cluster0.r39qy0s.mongodb.net/?retryWrites=true&w=majority")
 
@@ -63,6 +67,61 @@ def echo(event):
                 TextSendMessage(text=sendmsg)
             )
                 
+
+
+
+@handler.add(MessageEvent, message=FileMessage)
+def handle_file(event):
+    if event.message.type == "file":
+        message_content = line_bot_api.get_message_content(event.message.id)
+        file_path = f"uploads/{event.message.id}.xlsx"
+        
+        with open(file_path, "wb") as f:
+            for chunk in message_content.iter_content():
+                f.write(chunk)
+        
+        # 讀取Excel檔案內容
+        wb = openpyxl.load_workbook(file_path)
+        ws = wb['工作表1']
+        items = []
+        qtys=[]
+        for row in ws.iter_rows(min_row=2, values_only=True):  # 從第二行開始讀取
+            if row[0]:  # 如果該行的第一個欄位不為空
+                items.append(row[0])
+                qtys.append(row[1])
+        # 建立新的 Excel 檔案
+        output_wb = openpyxl.Workbook()
+        output_ws = output_wb.active
+        output_ws.append(["搜尋編號","庫存","製造商","產品編號","數量級距","價格(USD)"])
+        qtyposition=0
+        # 在新的 Excel 檔案中寫入資料
+        for item in items:
+            #qty對應的位子
+            qtyvalue=qtys[qtyposition]
+            print(item)
+            time.sleep(1)
+            result = mouser.getdata(item)
+            if result != {"nodata"} and result:
+                for part_number, part_info in result.items():
+                    row = [part_number, part_info['Availability'], part_info['Manufacturer'], part_info['ManufacturerPartNumber']]
+                    
+                    price_breaks = part_info['PriceBreaks']
+                    print(price_breaks)
+                    breakprice=mouser.getbreak(price_breaks,qtyvalue)
+                    row.append(breakprice[0])
+                    row.append(breakprice[1])
+
+                    output_ws.append(row)
+            else:
+                output_ws.append([item,"NA"])
+            qtyposition+=1
+        output_path = f"uploads/output_{event.message.id}.xlsx"
+        output_wb.save(output_path)
+        
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="下載連結: " + output_path))
+                
+        os.remove(file_path)  # 刪除上傳的暫存檔案s
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
