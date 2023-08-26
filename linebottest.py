@@ -116,9 +116,9 @@ def handle_file(event):
             qtyposition+=1
         output_path = f"uploads/output_{event.message.id}.xlsx"
         output_wb.save(output_path)
-        file_message = FileSendMessage(original_content_url=f'https://your-app-url/uploads/output_{event.message.id}.xlsx', file_name='output.xlsx')
-        line_bot_api.reply_message(event.reply_token, file_message)
-                        
+        message = FileSendMessage(original_content_url=output_path, file_name='output')
+        line_bot_api.reply_message(event.reply_token, message)
+
         os.remove(temp_file_path)  # 刪除上傳的暫存檔案s
 
 
