@@ -71,7 +71,7 @@ def echo(event):
 
 
 @handler.add(MessageEvent, message=FileMessage)
-def handle_file(event):
+def handle_mouser_file(event):
     if event.message.type == "file":
         message_content = line_bot_api.get_message_content(event.message.id)
         temp_file_path = f"uploads/temp_{event.message.id}.xlsx"  # 暫存檔案的路徑
@@ -97,7 +97,7 @@ def handle_file(event):
             #qty對應的位子
             qtyvalue=qtys[qtyposition]
             print(item)
-            time.sleep(0.3)
+            time.sleep(0.5)
             result = mouser.getdata(item)
             if result != {"nodata"} and result:
                 for part_number, part_info in result.items():
