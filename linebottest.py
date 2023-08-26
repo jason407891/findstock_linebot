@@ -1,7 +1,7 @@
 # 載入需要的模組
 from flask import Flask, request, abort
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, FileMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FileMessage, FileSendMessage
 from linebot import LineBotApi, WebhookHandler
 import pymongo
 import json
@@ -116,9 +116,9 @@ def handle_file(event):
             qtyposition+=1
         output_path = f"uploads/output_{event.message.id}.xlsx"
         output_wb.save(output_path)
-        
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="下載連結: " + output_path))
-                
+        file_message = FileSendMessage(original_content_url=f'https://your-app-url/uploads/output_{event.message.id}.xlsx', file_name='output.xlsx')
+        line_bot_api.reply_message(event.reply_token, file_message)
+                        
         os.remove(temp_file_path)  # 刪除上傳的暫存檔案s
 
 
