@@ -1,7 +1,7 @@
 # 載入需要的模組
 from flask import Flask, request, abort
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, FileMessage, FileSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FileMessage
 from linebot import LineBotApi, WebhookHandler
 import pymongo
 import json
