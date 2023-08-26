@@ -1,6 +1,6 @@
 Flask==1.1.1
 gunicorn==20.0.4
-line-bot-sdk==1.15.0
+line-bot-sdk==3.3.0
 jinja2==3.0.1
 markupsafe==2.1.0
 itsdangerous==2.0.1
