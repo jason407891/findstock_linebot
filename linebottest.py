@@ -97,7 +97,6 @@ def handle_mouser_file(event):
             #qty對應的位子
             qtyvalue=qtys[qtyposition]
             print(item)
-            time.sleep(0.5)
             result = mouser.getdata(item)
             if result != {"nodata"} and result:
                 for part_number, part_info in result.items():
