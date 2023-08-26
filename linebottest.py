@@ -73,9 +73,14 @@ def echo(event):
 @handler.add(MessageEvent, message=FileMessage)
 def handle_file(event):
     if event.message.type == "file":
-        message_content = line_bot_api.get_message_content(event.message.id)        
+        message_content = line_bot_api.get_message_content(event.message.id)
+        temp_file_path = f"uploads/temp_{event.message.id}.xlsx"  # 暫存檔案的路徑
+        with open(temp_file_path, "wb") as f:
+            for chunk in message_content.iter_content():
+                f.write(chunk)
+
         # 讀取Excel檔案內容
-        wb = openpyxl.load_workbook(message_content)
+        wb = openpyxl.load_workbook(temp_file_path)
         ws = wb['工作表1']
         items = []
         qtys=[]
@@ -114,7 +119,7 @@ def handle_file(event):
         
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="下載連結: " + output_path))
                 
-        os.remove(message_content)  # 刪除上傳的暫存檔案s
+        os.remove(temp_file_path)  # 刪除上傳的暫存檔案s
 
 
 if __name__ == "__main__":
