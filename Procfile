@@ -1,1 +1,1 @@
-web: gunicorn linebottest:app --preload
+web: gunicorn linebottest:app --timeout 120
