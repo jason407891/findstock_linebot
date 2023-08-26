@@ -88,10 +88,9 @@ def handle_file(event):
             if row[0]:  # 如果該行的第一個欄位不為空
                 items.append(row[0])
                 qtys.append(row[1])
-        # 建立新的 Excel 檔案
-        output_wb = openpyxl.Workbook()
-        output_ws = output_wb.active
-        output_ws.append(["搜尋編號","庫存","製造商","產品編號","數量級距","價格(USD)"])
+
+
+        output_text = "搜尋編號\t庫存\t製造商\t產品編號\t數量級距\t價格(USD)\n"
         qtyposition=0
         # 在新的 Excel 檔案中寫入資料
         for item in items:
@@ -102,22 +101,13 @@ def handle_file(event):
             result = mouser.getdata(item)
             if result != {"nodata"} and result:
                 for part_number, part_info in result.items():
-                    row = [part_number, part_info['Availability'], part_info['Manufacturer'], part_info['ManufacturerPartNumber']]
-                    
                     price_breaks = part_info['PriceBreaks']
-                    print(price_breaks)
                     breakprice=mouser.getbreak(price_breaks,qtyvalue)
-                    row.append(breakprice[0])
-                    row.append(breakprice[1])
-
-                    output_ws.append(row)
+                    output_text += f"{part_number}\t{part_info['Availability']}\t{part_info['Manufacturer']}\t{part_info['ManufacturerPartNumber']}\t{breakprice[0]}\t{breakprice[1]}\n"
             else:
-                output_ws.append([item,"NA"])
+                output_text += f"{item}\tNA\n"
             qtyposition+=1
-        output_path = f"uploads/output_{event.message.id}.xlsx"
-        output_wb.save(output_path)
-        message = FileSendMessage(original_content_url=output_path, file_name='output')
-        line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output_text))
 
         os.remove(temp_file_path)  # 刪除上傳的暫存檔案s
 
