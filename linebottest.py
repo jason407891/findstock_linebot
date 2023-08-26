@@ -90,7 +90,7 @@ def handle_file(event):
                 qtys.append(row[1])
 
 
-        output_text = "搜尋編號\t庫存\t製造商\t產品編號\t數量級距\t價格(USD)\n"
+        output_text = ""
         qtyposition=0
         # 在新的 Excel 檔案中寫入資料
         for item in items:
@@ -103,7 +103,7 @@ def handle_file(event):
                 for part_number, part_info in result.items():
                     price_breaks = part_info['PriceBreaks']
                     breakprice=mouser.getbreak(price_breaks,qtyvalue)
-                    output_text += f"{part_number}\t{part_info['Availability']}\t{part_info['Manufacturer']}\t{part_info['ManufacturerPartNumber']}\t{breakprice[0]}\t{breakprice[1]}\n"
+                    output_text += f"{part_info['Availability']}\t{part_info['Manufacturer']}\t{part_info['ManufacturerPartNumber']}\t{breakprice[0]}\t{breakprice[1]}\n"
             else:
                 output_text += f"{item}\tNA\n"
             qtyposition+=1
