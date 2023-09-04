@@ -40,6 +40,11 @@ def echo(event):
         text = event.message.text
         if text:
             itemlist = text.splitlines()
+            if len(itemlist)>20:
+                line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="查詢上限為20筆")
+                )   
             db = client["pteam"]
             collection = db['linestock']
             sendmsg="價格資訊\n\n"
