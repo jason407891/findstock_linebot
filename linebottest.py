@@ -44,48 +44,49 @@ def echo(event):
                 event.reply_token,
                 TextSendMessage(text="已切換至客服模式")
             )
-    if text=="詢價模式":
+    elif text=="詢價模式":
         session["handle_mode"]=0
         line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="已切換至詢價模式")
             )
     
-    if session["handle_mode"]==0:
-        itemlist = text.splitlines()
-        #控制查詢的筆數一次不能超過20筆!
-        if len(itemlist)>20:
+    else:
+        if session["handle_mode"]==0:
+            itemlist = text.splitlines()
+            #控制查詢的筆數一次不能超過20筆!
+            if len(itemlist)>20:
+                line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="查詢上限為20筆")
+                )   
+            db = client["pteam"]
+            collection = db['linestock']
+            sendmsg="價格資訊\n\n"
+
+            for item in itemlist:
+                results = collection.find({"pn": item})
+                if results.count() !=0:
+                    for result in results:
+                        pn = result['pn']
+                        mfr = result['mfr']
+                        stock = result['qty']
+                        sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                        
+                        price_list = json.loads(result['price'])
+                        for price in price_list:
+                            num = price['goods_num']
+                            p = price['goods_price']
+                            sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
+                        sendmsg+="\n"
+                else:
+                    sendmsg+="未找到產品編號"+str(item)+"\n"
+
             line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="查詢上限為20筆")
-            )   
-        db = client["pteam"]
-        collection = db['linestock']
-        sendmsg="價格資訊\n\n"
-
-        for item in itemlist:
-            results = collection.find({"pn": item})
-            if results.count() !=0:
-                for result in results:
-                    pn = result['pn']
-                    mfr = result['mfr']
-                    stock = result['qty']
-                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                    
-                    price_list = json.loads(result['price'])
-                    for price in price_list:
-                        num = price['goods_num']
-                        p = price['goods_price']
-                        sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
-                    sendmsg+="\n"
-            else:
-                sendmsg+="未找到產品編號"+str(item)+"\n"
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=sendmsg)
-        )
-            
+                event.reply_token,
+                TextSendMessage(text=sendmsg)
+            )
+                
 
 
 @handler.add(MessageEvent, message=FileMessage)
