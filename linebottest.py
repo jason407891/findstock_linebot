@@ -40,7 +40,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def changemode(event):
+def changemode_service(event):
     text = event.message.text
     if text=="聯繫客服":
         global handle_mode
@@ -51,7 +51,7 @@ def changemode(event):
             )
         
 @handler.add(MessageEvent, message=TextMessage)
-def changemode(event):
+def changemode_inquire(event):
     text = event.message.text
     if text=="詢價模式":
         global handle_mode
