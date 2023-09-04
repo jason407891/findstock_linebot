@@ -1,5 +1,5 @@
 # 載入需要的模組
-from flask import Flask, request, abort
+from flask import Flask, request, abort, session
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FileMessage
 from linebot import LineBotApi, WebhookHandler
@@ -19,6 +19,10 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('xNFz7l4M6QzcPwGqP83/0WZc+Luri3gPVUS73Rt6SpI8O6gpfOhLelI6X/4F3crEpvRIVxu4QxIp6JPTUVbkTrEg5eezB3yMYPpas/3uhJqyYPd1d4JVhCfvt0neul8PUPjqv9dXw7ZdR1lWD4KcfAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('ca02a3700ac05d6d9565e0a365498c95')
 
+#控制真人模式或是查詢模式
+#預設為詢價模式
+handle_mode=0
+
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
@@ -34,12 +38,37 @@ def callback():
     return 'OK'
 
 
+
+@handler.add(MessageEvent, message=TextMessage)
+def changemode(event):
+    text = event.message.text
+    if text=="聯繫客服":
+        global handle_mode
+        handle_mode=1
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="已切換至客服模式")
+            )
+        
+@handler.add(MessageEvent, message=TextMessage)
+def changemode(event):
+    text = event.message.text
+    if text=="詢價模式":
+        global handle_mode
+        handle_mode=0
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="已切換至詢價模式")
+            )
+
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
-    if event.source.user_id != "123":
+    global handle_mode
+    if handle_mode==0:
         text = event.message.text
         if text:
             itemlist = text.splitlines()
+            #控制查詢的筆數一次不能超過20筆!
             if len(itemlist)>20:
                 line_bot_api.reply_message(
                 event.reply_token,
@@ -72,7 +101,6 @@ def echo(event):
                 TextSendMessage(text=sendmsg)
             )
                 
-
 
 
 @handler.add(MessageEvent, message=FileMessage)
