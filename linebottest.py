@@ -22,11 +22,10 @@ handler = WebhookHandler('ca02a3700ac05d6d9565e0a365498c95')
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
 def callback():
-    if "handle_mode" not in session:
-        session["handle_mode"] = 0
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
-    
+    if "handle_mode" not in session:
+        session["handle_mode"] = 0
     app.logger.info("Request body: " + body)
     try:
         handler.handle(body, signature)
