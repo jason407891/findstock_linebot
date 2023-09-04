@@ -22,10 +22,11 @@ handler = WebhookHandler('ca02a3700ac05d6d9565e0a365498c95')
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
 def callback():
-    signature = request.headers['X-Line-Signature']
-    body = request.get_data(as_text=True)
     if "handle_mode" not in session:
         session["handle_mode"] = 0
+    signature = request.headers['X-Line-Signature']
+    body = request.get_data(as_text=True)
+    
     app.logger.info("Request body: " + body)
     try:
         handler.handle(body, signature)
@@ -34,9 +35,8 @@ def callback():
     return 'OK'
 
 
-
 @handler.add(MessageEvent, message=TextMessage)
-def changemode_service(event):
+def echo(event):
     text = event.message.text
     if text=="聯繫客服":
         session["handle_mode"]=1
@@ -44,56 +44,48 @@ def changemode_service(event):
                 event.reply_token,
                 TextSendMessage(text="已切換至客服模式")
             )
-        
-@handler.add(MessageEvent, message=TextMessage)
-def changemode_inquire(event):
-    text = event.message.text
     if text=="詢價模式":
         session["handle_mode"]=0
         line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="已切換至詢價模式")
             )
-
-@handler.add(MessageEvent, message=TextMessage)
-def echo(event):
+    
     if session["handle_mode"]==0:
-        text = event.message.text
-        if text:
-            itemlist = text.splitlines()
-            #控制查詢的筆數一次不能超過20筆!
-            if len(itemlist)>20:
-                line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="查詢上限為20筆")
-                )   
-            db = client["pteam"]
-            collection = db['linestock']
-            sendmsg="價格資訊\n\n"
-
-            for item in itemlist:
-                results = collection.find({"pn": item})
-                if results.count() !=0:
-                    for result in results:
-                        pn = result['pn']
-                        mfr = result['mfr']
-                        stock = result['qty']
-                        sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                        
-                        price_list = json.loads(result['price'])
-                        for price in price_list:
-                            num = price['goods_num']
-                            p = price['goods_price']
-                            sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
-                        sendmsg+="\n"
-                else:
-                    sendmsg+="未找到產品編號"+str(item)+"\n"
-
+        itemlist = text.splitlines()
+        #控制查詢的筆數一次不能超過20筆!
+        if len(itemlist)>20:
             line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=sendmsg)
-            )
-                
+            event.reply_token,
+            TextSendMessage(text="查詢上限為20筆")
+            )   
+        db = client["pteam"]
+        collection = db['linestock']
+        sendmsg="價格資訊\n\n"
+
+        for item in itemlist:
+            results = collection.find({"pn": item})
+            if results.count() !=0:
+                for result in results:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    
+                    price_list = json.loads(result['price'])
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
+                    sendmsg+="\n"
+            else:
+                sendmsg+="未找到產品編號"+str(item)+"\n"
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=sendmsg)
+        )
+            
 
 
 @handler.add(MessageEvent, message=FileMessage)
