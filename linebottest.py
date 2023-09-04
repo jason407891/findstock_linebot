@@ -9,12 +9,19 @@ import openpyxl
 import os
 import mouser
 import time
+from flask_session import Session
 
 client = pymongo.MongoClient("mongodb+srv://root:12root28@cluster0.r39qy0s.mongodb.net/?retryWrites=true&w=majority")
 
 app = Flask(__name__)
 app.secret_key="jasonkey"
 # LINE 聊天機器人的基本資料
+
+
+# 配置 Flask-Session
+app.config['SESSION_TYPE'] = 'filesystem'  # 使用文件系统存储会话数据
+Session(app)
+
 
 line_bot_api = LineBotApi('xNFz7l4M6QzcPwGqP83/0WZc+Luri3gPVUS73Rt6SpI8O6gpfOhLelI6X/4F3crEpvRIVxu4QxIp6JPTUVbkTrEg5eezB3yMYPpas/3uhJqyYPd1d4JVhCfvt0neul8PUPjqv9dXw7ZdR1lWD4KcfAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('ca02a3700ac05d6d9565e0a365498c95')
