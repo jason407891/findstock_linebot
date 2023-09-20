@@ -46,10 +46,9 @@ def echo(event):
     text = event.message.text
     if text=="聯繫客服":
         session["handle_mode"]=1
-        print(session["handle_mode"])
         line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="已切換至客服模式")
+                TextSendMessage(text="已切換至客服模式"+session["handle_mode"])
             )
     elif text=="詢價模式":
         session["handle_mode"]=0
