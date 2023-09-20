@@ -45,12 +45,23 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
     text = event.message.text
-    itemlist = text.splitlines()
-    #控制查詢的筆數一次不能超過20筆!
-    if len(itemlist)>20:
+    if text =="操作說明":
+        content="1.請輸入完整料號查詢\n2.單次查詢數量上限為30筆，每個料號請換行輸入\n3.下單或確認價格請聯繫service@pteamtech.com"
         line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="單次查詢上限為20筆")
+        TextSendMessage(text=content)
+        )
+    if text =="聯繫我們":
+        line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="信箱: service@pteamtech.com\n電話: 02-2697-5001\nSkype: live:fa52e5450fa6afa7\nLine: rtyu73162")
+        ) 
+    itemlist = text.splitlines()
+    #控制查詢的筆數一次不能超過20筆!
+    if len(itemlist)>30:
+        line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="單次查詢上限為30筆")
         )   
     db = client["pteam"]
     collection = db['linestock']
