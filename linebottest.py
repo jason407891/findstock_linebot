@@ -58,12 +58,17 @@ def echo(event):
             )
     else:
         if session["handle_mode"]==0:
+                line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="真人回覆")
+            )
+        if session["handle_mode"]==0:
             itemlist = text.splitlines()
             #控制查詢的筆數一次不能超過20筆!
             if len(itemlist)>20:
                 line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text="查詢上限為20筆")
+                TextSendMessage(text="單次查詢上限為20筆")
                 )   
             db = client["pteam"]
             collection = db['linestock']
