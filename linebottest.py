@@ -42,6 +42,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
     text = event.message.text
+    handle_mode = session.get("handle_mode", 0)
     if "handle_mode" not in session:
         session["handle_mode"] = 0
     if text=="聯繫客服":
@@ -57,12 +58,7 @@ def echo(event):
                 TextSendMessage(text="已切換至詢價模式")
             )
     else:
-        if session["handle_mode"]==1:
-                line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="真人回覆")
-            )
-        if session["handle_mode"]==0:
+        if handle_mode==0:
             itemlist = text.splitlines()
             #控制查詢的筆數一次不能超過20筆!
             if len(itemlist)>20:
