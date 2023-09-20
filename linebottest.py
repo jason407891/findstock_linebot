@@ -57,7 +57,7 @@ def echo(event):
                 TextSendMessage(text="已切換至詢價模式")
             )
     else:
-        if session["handle_mode"]==0:
+        if session["handle_mode"]==1:
                 line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="真人回覆")
