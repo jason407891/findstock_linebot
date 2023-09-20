@@ -72,7 +72,7 @@ def echo(event):
                     sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                 sendmsg+="\n---------"
         else:
-            sendmsg+="未找到產品編號"+str(item)+"\n---------"
+            sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
 
     line_bot_api.reply_message(
         event.reply_token,
