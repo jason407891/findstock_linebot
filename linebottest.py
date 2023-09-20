@@ -68,7 +68,8 @@ def echo(event):
     sendmsg="價格資訊\n\n"
 
     for item in itemlist:
-        results = collection.find({"pn": item})
+        regex_pattern = f".*{item}.*"
+        results = collection.find({"pn": {"$regex": regex_pattern, "$options": "i"}})
         if results.count() !=0:
             for result in results:
                 pn = result['pn']
