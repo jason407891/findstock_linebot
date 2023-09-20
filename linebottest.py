@@ -20,6 +20,9 @@ app.secret_key="jasonkey"
 
 # 配置 Flask-Session
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SECRET_KEY'] = 'jasonkey'
 Session(app)
 
 
