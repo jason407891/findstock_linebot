@@ -69,7 +69,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
                 sendmsg+="\n---------\n"
         else:
             sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
