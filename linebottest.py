@@ -19,7 +19,7 @@ app.secret_key="jasonkey"
 
 
 # 配置 Flask-Session
-app.config['SESSION_TYPE'] = 'filesystem'  # 使用文件系统存储会话数据
+app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
 
@@ -46,6 +46,7 @@ def echo(event):
     text = event.message.text
     if text=="聯繫客服":
         session["handle_mode"]=1
+        print(session["handle_mode"])
         line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="已切換至客服模式")
@@ -56,7 +57,6 @@ def echo(event):
                 event.reply_token,
                 TextSendMessage(text="已切換至詢價模式")
             )
-    
     else:
         if session["handle_mode"]==0:
             itemlist = text.splitlines()
@@ -121,8 +121,8 @@ def handle_mouser_file(event):
         for item in items:
             #qty對應的位子
             qtyvalue=qtys[qtyposition]
-            print(item)
             result = mouser.getdata(item)
+            time.sleep(2)
             if result != {"nodata"} and result:
                 for part_number, part_info in result.items():
                     price_breaks = part_info['PriceBreaks']
