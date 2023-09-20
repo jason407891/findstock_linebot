@@ -31,8 +31,6 @@ handler = WebhookHandler('ca02a3700ac05d6d9565e0a365498c95')
 def callback():
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
-    if "handle_mode" not in session:
-        session["handle_mode"] = 0
     app.logger.info("Request body: " + body)
     try:
         handler.handle(body, signature)
@@ -44,6 +42,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
     text = event.message.text
+    if "handle_mode" not in session:
+        session["handle_mode"] = 0
     if text=="聯繫客服":
         session["handle_mode"]=1
         line_bot_api.reply_message(
