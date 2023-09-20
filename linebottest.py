@@ -70,9 +70,9 @@ def echo(event):
                     num = price['goods_num']
                     p = price['goods_price']
                     sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
-                sendmsg+="\n"
+                sendmsg+="\n---------"
         else:
-            sendmsg+="未找到產品編號"+str(item)+"\n"
+            sendmsg+="未找到產品編號"+str(item)+"\n---------"
 
     line_bot_api.reply_message(
         event.reply_token,
