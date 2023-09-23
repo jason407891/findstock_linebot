@@ -101,6 +101,8 @@ def echo(event):
         VERICAL 2167609
         """
         DG=findchips(response,1588,item)
+        MOU=findchips(response,1577,item)
+        ARR=findchips(response,1538,item)
         if DG:
             for result in DG:
                 pn = result['pn']
@@ -113,8 +115,30 @@ def echo(event):
                     p = price['goods_price']
                     sendmsg += "數量:"+str(num)+"價格:"+str(p)
                 sendmsg+="\n---------\n"
-        else:
-            sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
+        if MOU:
+            for result in MOU:
+                pn = result['pn']
+                mfr = result['mfr']
+                stock = result['qty']
+                sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                price_list = result['price']
+                for price in price_list:
+                    num = price['goods_num']
+                    p = price['goods_price']
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                sendmsg+="\n---------\n"
+        if ARR:
+            for result in ARR:
+                pn = result['pn']
+                mfr = result['mfr']
+                stock = result['qty']
+                sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                price_list = result['price']
+                for price in price_list:
+                    num = price['goods_num']
+                    p = price['goods_price']
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                sendmsg+="\n---------\n"
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=sendmsg)
