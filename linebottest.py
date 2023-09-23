@@ -129,6 +129,7 @@ def echo(event):
                     sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         if ARR:
+            sendmsg+="代理商\n"
             for result in ARR:
                 pn = result['pn']
                 mfr = result['mfr']
