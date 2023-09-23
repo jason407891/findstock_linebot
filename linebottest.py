@@ -113,7 +113,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         if MOU:
             for result in MOU:
@@ -125,7 +125,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         if ARR:
             for result in ARR:
@@ -137,7 +137,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
     line_bot_api.reply_message(
         event.reply_token,
