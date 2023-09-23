@@ -49,7 +49,7 @@ def callback():
 def echo(event):
     text = event.message.text
     if text =="操作說明":
-        content="1. 請輸入完整料號查詢\n2. 單次查詢數量上限為30筆，每個料號請換行輸入\n3. 查詢範例:\nPHR-3\nPHR-2\n4. 下單或確認價格請聯繫service@pteamtech.com"
+        content="1. 請輸入完整料號查詢\n查詢範例:\nPHR-3\nPHR-2\n2. 下單或確認價格請聯繫service@pteamtech.com"
         line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content)
@@ -61,7 +61,7 @@ def echo(event):
         ) 
     itemlist = text.splitlines()
     #控制查詢的筆數一次不能超過20筆!
-    if len(itemlist)>2:
+    if len(itemlist)>1:
         line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text="目前單次查詢上限為1筆")
