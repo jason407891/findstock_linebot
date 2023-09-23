@@ -10,6 +10,9 @@ import os
 import mouser
 import time
 from flask_session import Session
+from findchip import findchips
+import requests
+from bs4 import BeautifulSoup
 
 client = pymongo.MongoClient("mongodb+srv://root:12root28@cluster0.r39qy0s.mongodb.net/?retryWrites=true&w=majority")
 
@@ -58,10 +61,10 @@ def echo(event):
         ) 
     itemlist = text.splitlines()
     #控制查詢的筆數一次不能超過20筆!
-    if len(itemlist)>30:
+    if len(itemlist)>2:
         line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="單次查詢上限為30筆")
+        TextSendMessage(text="目前單次查詢上限為1筆")
         )   
     db = client["pteam"]
     collection = db['linestock']
@@ -84,6 +87,37 @@ def echo(event):
                 sendmsg+="\n---------\n"
         else:
             sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
+        sendmsg+="代購資訊\n"
+        url = "https://www.findchips.com/search/"+str(pn)
+        response = requests.get(url)
+        """
+        DGKEY 1588
+        CHIPONE 4327862
+        AVNET 313766970
+        ELEMENT 2953375
+        MOUSER 1577
+        TME 150002559
+        ARROW 1538
+        VERICAL 2167609
+        """
+        DG=findchips(response,1588,pn)
+        if DG.count() !=0:
+            for result in DG:
+                pn = result['pn']
+                mfr = result['mfr']
+                stock = result['qty']
+                sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                price_list = json.loads(result['price'])
+                for price in price_list:
+                    num = price['goods_num']
+                    p = price['goods_price']
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                sendmsg+="\n---------\n"
+        else:
+            sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
+
+
+    
 
     line_bot_api.reply_message(
         event.reply_token,
