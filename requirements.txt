@@ -11,3 +11,4 @@ openpyxl==3.1.2
 Flask-Session==0.5.0
 flask_session
 werkzeug==2.3.7
+requests==2.31.0

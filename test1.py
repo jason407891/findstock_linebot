@@ -18,7 +18,7 @@ ARROW 1538
 VERICAL 2167609
 """
 
-print(findchips(response,1588,pn))
-print(findchips(response,2167609,pn))
-
+#print(findchips(response,1588,pn))
+#print(findchips(response,2167609,pn))
+print(requests.__version__)
 

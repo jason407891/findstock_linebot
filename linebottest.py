@@ -115,10 +115,6 @@ def echo(event):
                 sendmsg+="\n---------\n"
         else:
             sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
-
-
-    
-
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=sendmsg)
