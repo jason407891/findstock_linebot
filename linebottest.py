@@ -87,7 +87,7 @@ def echo(event):
                 sendmsg+="\n---------\n"
         #else:
             #sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
-        sendmsg+="代購資訊\n"
+        sendmsg+="代購資訊\n\n"
         url = "https://www.findchips.com/search/"+str(item)
         response = requests.get(url)
         """
@@ -107,7 +107,7 @@ def echo(event):
                 mfr = result['mfr']
                 stock = result['qty']
                 sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                price_list = json.loads(result['price'])
+                price_list = result['price']
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
