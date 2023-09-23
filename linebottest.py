@@ -104,6 +104,7 @@ def echo(event):
         MOU=findchips(response,1577,item)
         ARR=findchips(response,1538,item)
         if DG:
+            sendmsg+="DG\n"
             for result in DG:
                 pn = result['pn']
                 mfr = result['mfr']
@@ -116,6 +117,7 @@ def echo(event):
                     sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         if MOU:
+            sendmsg+="MOUSER\n"
             for result in MOU:
                 pn = result['pn']
                 mfr = result['mfr']
