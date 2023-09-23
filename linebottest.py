@@ -88,7 +88,7 @@ def echo(event):
         #else:
             #sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
         sendmsg+="代購資訊\n"
-        url = "https://www.findchips.com/search/"+str(pn)
+        url = "https://www.findchips.com/search/"+str(item)
         response = requests.get(url)
         """
         DGKEY 1588
@@ -100,7 +100,7 @@ def echo(event):
         ARROW 1538
         VERICAL 2167609
         """
-        DG=findchips(response,1588,pn)
+        DG=findchips(response,1588,item)
         if DG:
             for result in DG:
                 pn = result['pn']
