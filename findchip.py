@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 
 
-pn="gvrsvfv"
+pn="PAP-03V-S"
 url = "https://www.findchips.com/search/"+str(pn)
 response = requests.get(url)
 
@@ -34,7 +34,7 @@ def findchips(response,supplier_code,name):
                     found_number = match.group()
                     if int(found_number)==0:
                         break
-                    price_result["stock"]=stock
+                    price_result["qty"]=stock
                 #price_break
                 prices=row.find_all(class_="price-list")
                 price_breaks=[] # []
@@ -65,6 +65,7 @@ MOUSER 1577
 TME 150002559
 """
 
-#findchips(response,1588,pn)
+
+print(findchips(response,1588,pn))
 #print(findchips(response,4327862,pn))
 #print(findchips(response,2167609,pn))
