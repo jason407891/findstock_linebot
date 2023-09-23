@@ -85,8 +85,8 @@ def echo(event):
                     p = price['goods_price']
                     sendmsg += "數量:"+str(num)+"價格:"+str(p)
                 sendmsg+="\n---------\n"
-        else:
-            sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
+        #else:
+            #sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
         sendmsg+="代購資訊\n"
         url = "https://www.findchips.com/search/"+str(pn)
         response = requests.get(url)
@@ -101,7 +101,7 @@ def echo(event):
         VERICAL 2167609
         """
         DG=findchips(response,1588,pn)
-        if DG.count() !=0:
+        if DG:
             for result in DG:
                 pn = result['pn']
                 mfr = result['mfr']
