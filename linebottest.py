@@ -68,7 +68,7 @@ def echo(event):
         )   
     db = client["pteam"]
     collection = db['linestock']
-    sendmsg="價格資訊\n\n"
+    sendmsg="庫存資訊\n\n"
 
     for item in itemlist:
         results = collection.find({"pn": item})
@@ -78,12 +78,11 @@ def echo(event):
                 mfr = result['mfr']
                 stock = result['qty']
                 sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                
                 price_list = json.loads(result['price'])
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)
+                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         #else:
             #sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
@@ -114,7 +113,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
+                    sendmsg += "數量:"+str(num)+"USD價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         if MOU:
             sendmsg+="MOUSER\n"
@@ -127,7 +126,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
+                    sendmsg += "數量:"+str(num)+"USD價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
         if ARR:
             for result in ARR:
@@ -139,7 +138,7 @@ def echo(event):
                 for price in price_list:
                     num = price['goods_num']
                     p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+"價格:"+str(p)+"\n"
+                    sendmsg += "數量:"+str(num)+"USD價格:"+str(p)+"\n"
                 sendmsg+="\n---------\n"
     line_bot_api.reply_message(
         event.reply_token,
