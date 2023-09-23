@@ -2,7 +2,7 @@ from findchip import findchips
 import requests
 from bs4 import BeautifulSoup
 
-pn="55100-0680"
+pn="PAP-03V-S"
 url = "https://www.findchips.com/search/"+str(pn)
 response = requests.get(url)
 
@@ -20,5 +20,5 @@ VERICAL 2167609
 
 #print(findchips(response,1588,pn))
 #print(findchips(response,2167609,pn))
-print(requests.__version__)
+#print(requests.__version__)
 
