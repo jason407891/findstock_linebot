@@ -68,7 +68,7 @@ def echo(event):
         )   
     db = client["pteam"]
     collection = db['linestock']
-    sendmsg="庫存資訊\n\n"
+    sendmsg="****庫存資訊****\n\n"
 
     for item in itemlist:
         results = collection.find({"pn": item})
@@ -86,7 +86,7 @@ def echo(event):
                 sendmsg+="\n---------\n"
         #else:
             #sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
-        sendmsg+="代購資訊\n\n"
+        sendmsg+="****代購資訊****\n\n"
         url = "https://www.findchips.com/search/"+str(item)
         response = requests.get(url)
         """
