@@ -110,7 +110,7 @@ def echo(event):
                 for result in DG:
                     pn = result['pn']
                     mfr = result['mfr']
-                    stock = result['qty']
+                    stock = result['stock']
                     sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                     price_list = result['price']
                     for price in price_list:
@@ -123,7 +123,7 @@ def echo(event):
                 for result in MOU:
                     pn = result['pn']
                     mfr = result['mfr']
-                    stock = result['qty']
+                    stock = result['stock']
                     sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                     price_list = result['price']
                     for price in price_list:
@@ -136,7 +136,7 @@ def echo(event):
                 for result in ARR:
                     pn = result['pn']
                     mfr = result['mfr']
-                    stock = result['qty']
+                    stock = result['stock']
                     sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                     price_list = result['price']
                     for price in price_list:
@@ -159,7 +159,7 @@ def echo(event):
                 for result in DG:
                     pn = result['pn']
                     mfr = result['mfr']
-                    stock = result['qty']
+                    stock = result['stock']
                     sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                     price_list = result['price']
                     for price in price_list:
@@ -172,7 +172,7 @@ def echo(event):
                 for result in MOU:
                     pn = result['pn']
                     mfr = result['mfr']
-                    stock = result['qty']
+                    stock = result['stock']
                     sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                     price_list = result['price']
                     for price in price_list:
@@ -185,7 +185,7 @@ def echo(event):
                 for result in ARR:
                     pn = result['pn']
                     mfr = result['mfr']
-                    stock = result['qty']
+                    stock = result['stock']
                     sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
                     price_list = result['price']
                     for price in price_list:
