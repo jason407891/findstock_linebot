@@ -151,10 +151,10 @@ def echo(event):
                 TextSendMessage(text=sendmsg)
             )
         elif len(item_content)==2:
-            DG=findchips_desqty(response, 1588, item_name, int(item_content[1]))
+            DG=findchips_desqty(response, 1588, str(item_name), int(item_content[1]))
             print(DG,123)
-            MOU=findchips_qty(response, 1577, item_name, int(item_content[1]))
-            ARR=findchips_desqty(response, 1538, item_name, int(item_content[1]))
+            MOU=findchips_qty(response, 1577, str(item_name), int(item_content[1]))
+            ARR=findchips_desqty(response, 1538, str(item_name), int(item_content[1]))
             if DG:
                 sendmsg+="DG\n"
                 for result in DG:
