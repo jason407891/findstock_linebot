@@ -90,61 +90,118 @@ def echo(event):
         url = "https://www.findchips.com/search/"+str(item)
         response = requests.get(url)
         """
-        DGKEY 1588
+        DGKEY 1588 DES
         CHIPONE 4327862
         AVNET 313766970
         ELEMENT 2953375
         MOUSER 1577
         TME 150002559
-        ARROW 1538
+        ARROW 1538 DES
         VERICAL 2167609
         """
-        DG=findchips(response,1588,item)
-        MOU=findchips(response,1577,item)
-        ARR=findchips(response,1538,item)
-        if DG:
-            sendmsg+="DG\n"
-            for result in DG:
-                pn = result['pn']
-                mfr = result['mfr']
-                stock = result['qty']
-                sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                price_list = result['price']
-                for price in price_list:
-                    num = price['goods_num']
-                    p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                sendmsg+="\n---------\n"
-        if MOU:
-            sendmsg+="MOUSER\n"
-            for result in MOU:
-                pn = result['pn']
-                mfr = result['mfr']
-                stock = result['qty']
-                sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                price_list = result['price']
-                for price in price_list:
-                    num = price['goods_num']
-                    p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                sendmsg+="\n---------\n"
-        if ARR:
-            sendmsg+="代理商\n"
-            for result in ARR:
-                pn = result['pn']
-                mfr = result['mfr']
-                stock = result['qty']
-                sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
-                price_list = result['price']
-                for price in price_list:
-                    num = price['goods_num']
-                    p = price['goods_price']
-                    sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                sendmsg+="\n---------\n"
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=sendmsg)
-    )
+        item_content=item.split(" ")
+        if len(item_content)==1:
+            DG=findchips(response,1588,item)
+            MOU=findchips(response,1577,item)
+            ARR=findchips(response,1538,item)
+            if DG:
+                sendmsg+="DG\n"
+                for result in DG:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n---------\n"
+            if MOU:
+                sendmsg+="MOUSER\n"
+                for result in MOU:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n---------\n"
+            if ARR:
+                sendmsg+="代理商\n"
+                for result in ARR:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n---------\n"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=sendmsg)
+            )
+        elif len(item_content)==2:
+            part=item_content[0]
+            qty=item_content[1]
+            DG=findchips(response, 1588, part, qty)
+            MOU=findchips(response, 1577, part, qty)
+            ARR=findchips(response, 1538, part, qty)
+            if DG:
+                sendmsg+="DG\n"
+                for result in DG:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n---------\n"
+            if MOU:
+                sendmsg+="MOUSER\n"
+                for result in MOU:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n---------\n"
+            if ARR:
+                sendmsg+="代理商\n"
+                for result in ARR:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['qty']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n---------\n"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=sendmsg)
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="格式錯誤")
+            )
+
                 
 
 
