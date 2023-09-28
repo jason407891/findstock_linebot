@@ -151,10 +151,10 @@ def echo(event):
         elif len(item_content)==2:
             part=item_content[0]
             qty=item_content[1]
-            DG=findchips_desqty(response, 1588, part, qty)
+            DG=findchips_desqty(response, 1588, part, int(qty))
             print(DG)
-            MOU=findchips_qty(response, 1577, part, qty)
-            ARR=findchips_desqty(response, 1538, part, qty)
+            MOU=findchips_qty(response, 1577, part, int(qty))
+            ARR=findchips_desqty(response, 1538, part, int(qty))
             if DG:
                 sendmsg+="DG\n"
                 for result in DG:
