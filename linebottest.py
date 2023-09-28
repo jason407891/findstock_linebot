@@ -70,9 +70,10 @@ def echo(event):
     collection = db['linestock']
     sendmsg="****庫存資訊****\n\n"
 
-
     for item in itemlist:
-        results = collection.find({"pn": item})
+        item_content=item.split(" ")
+        item_name=item_content[0]
+        results = collection.find({"pn": item_name})
         if results.count() !=0:
             for result in results:
                 pn = result['pn']
@@ -100,7 +101,6 @@ def echo(event):
         ARROW 1538 DES
         VERICAL 2167609
         """
-        item_content=item.split(" ")
         if len(item_content)==1:
             DG=findchips(response,1588,item)
             MOU=findchips(response,1577,item)
@@ -149,12 +149,11 @@ def echo(event):
                 TextSendMessage(text=sendmsg)
             )
         elif len(item_content)==2:
-            part=item_content[0]
             qty=item_content[1]
-            DG=findchips_desqty(response, 1588, part, int(qty))
-            print(DG)
-            MOU=findchips_qty(response, 1577, part, int(qty))
-            ARR=findchips_desqty(response, 1538, part, int(qty))
+            DG=findchips_desqty(response, 1588, item_name, int(qty))
+            print(DG,123)
+            MOU=findchips_qty(response, 1577, item_name, int(qty))
+            ARR=findchips_desqty(response, 1538, item_name, int(qty))
             if DG:
                 sendmsg+="DG\n"
                 for result in DG:
