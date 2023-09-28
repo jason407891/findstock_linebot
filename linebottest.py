@@ -69,6 +69,7 @@ def echo(event):
     db = client["pteam"]
     collection = db['linestock']
     sendmsg="****庫存資訊****\n\n"
+    
 
     for item in itemlist:
         results = collection.find({"pn": item})
