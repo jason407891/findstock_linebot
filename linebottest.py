@@ -152,6 +152,7 @@ def echo(event):
             part=item_content[0]
             qty=item_content[1]
             DG=findchips_desqty(response, 1588, part, qty)
+            print(DG)
             MOU=findchips_qty(response, 1577, part, qty)
             ARR=findchips_desqty(response, 1538, part, qty)
             if DG:

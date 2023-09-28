@@ -185,6 +185,6 @@ TME 150002559
 """
 
 
-print(findchips(response,1588,pn))
-#print(findchips_desqty(response,1588,pn,900))
+#print(findchips(response,1588,pn))
+print(findchips_desqty(response,1588,pn,900))
 #print(findchips(response,1588,pn))
