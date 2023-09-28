@@ -72,6 +72,8 @@ def echo(event):
 
     for item in itemlist:
         item_content=item.split(" ")
+        print(item_content[0],"第一個接收到的值")
+        print(item_content[1],"第二個接收到的值")
         item_name=item_content[0]
         results = collection.find({"pn": item_name})
         if results.count() !=0:
