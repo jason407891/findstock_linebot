@@ -10,7 +10,7 @@ import os
 import mouser
 import time
 from flask_session import Session
-from findchip import findchips
+from findchip import findchips,findchips_qty,findchips_desqty
 import requests
 from bs4 import BeautifulSoup
 
@@ -69,7 +69,7 @@ def echo(event):
     db = client["pteam"]
     collection = db['linestock']
     sendmsg="****庫存資訊****\n\n"
-    
+
 
     for item in itemlist:
         results = collection.find({"pn": item})
@@ -151,9 +151,9 @@ def echo(event):
         elif len(item_content)==2:
             part=item_content[0]
             qty=item_content[1]
-            DG=findchips(response, 1588, part, qty)
-            MOU=findchips(response, 1577, part, qty)
-            ARR=findchips(response, 1538, part, qty)
+            DG=findchips_desqty(response, 1588, part, qty)
+            MOU=findchips_qty(response, 1577, part, qty)
+            ARR=findchips_desqty(response, 1538, part, qty)
             if DG:
                 sendmsg+="DG\n"
                 for result in DG:
