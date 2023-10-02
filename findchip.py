@@ -98,7 +98,7 @@ def findchips_qty(response,supplier_code,name,qty):
                     price_breaks[0]=price_info
                     
                     for i in range(1,len(labels)):
-                        if qty<=int(labels[i].text.strip()):
+                        if qty<int(labels[i].text.strip()):
                             break
                         price_info = {
                             "goods_num":labels[i].text.strip(),
@@ -158,7 +158,7 @@ def findchips_desqty(response,supplier_code,name,qty):
                     price_breaks[0]=price_info
                     
                     for i in range(len(labels)-1,-1,-1):
-                        if qty<=int(labels[i].text.strip()):
+                        if qty<int(labels[i].text.strip()):
                             break
                         price_info = {
                             "goods_num":labels[i].text.strip(),
@@ -186,6 +186,6 @@ TME 150002559
 
 
 #print(findchips(response,1588,pn))
-a=findchips_desqty(response,1588,pn,900)
-print(a)
+#a=findchips_desqty(response,1588,pn,900)
+#print(a)
 #print(findchips(response,1588,pn))
