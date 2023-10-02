@@ -85,7 +85,7 @@ def echo(event):
                     num = price['goods_num']
                     p = price['goods_price']
                     sendmsg += "數量:"+str(num)+" NTD價格:"+str(p)+"\n"
-                sendmsg+="\n---------\n"
+                sendmsg+="\n\n"
         #else:
             #sendmsg+="未找到產品編號:"+str(item)+"\n---------\n"
         sendmsg+="****代購資訊****\n\n"
@@ -117,7 +117,7 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                    sendmsg+="\n---------\n"
+                    sendmsg+="\n\n"
             if MOU:
                 sendmsg+="MOUSER\n"
                 for result in MOU:
@@ -130,7 +130,7 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                    sendmsg+="\n---------\n"
+                    sendmsg+="\n\n"
             if ARR:
                 sendmsg+="代理商\n"
                 for result in ARR:
@@ -143,16 +143,13 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                    sendmsg+="\n---------\n"
+                    sendmsg+="\n\n"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=sendmsg)
             )
         elif len(item_content)==2:
             DG=findchips_desqty(response, 1588, str(item_content[0]), int(item_content[1]))
-            print(response.text)
-            print(item_content[0],item_content[1])
-            print(DG,123)
             MOU=findchips_qty(response, 1577, str(item_content[0]), int(item_content[1]))
             ARR=findchips_desqty(response, 1538, str(item_content[0]), int(item_content[1]))
             if DG:
@@ -167,7 +164,7 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                    sendmsg+="\n---------\n"
+                    sendmsg+="\n\n"
             if MOU:
                 sendmsg+="MOUSER\n"
                 for result in MOU:
@@ -180,7 +177,7 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                    sendmsg+="\n---------\n"
+                    sendmsg+="\n\n"
             if ARR:
                 sendmsg+="代理商\n"
                 for result in ARR:
@@ -193,7 +190,7 @@ def echo(event):
                         num = price['goods_num']
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
-                    sendmsg+="\n---------\n"
+                    sendmsg+="\n\n"
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=sendmsg)
