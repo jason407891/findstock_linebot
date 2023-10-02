@@ -83,7 +83,7 @@ def findchips_qty(response,supplier_code,name,qty):
                     found_number = match.group()
                     if int(found_number)==0:
                         break
-                    price_result["stock"]=found_number
+                    price_result["stock"]=int(found_number)
                 #price_break
                 prices=row.find_all(class_="price-list")
                 price_breaks=[] # []
@@ -143,7 +143,7 @@ def findchips_desqty(response,supplier_code,name,qty):
                     found_number = match.group()
                     if int(found_number)==0:
                         break
-                    price_result["stock"]=found_number
+                    price_result["stock"]=int(found_number)
                 #price_break
                 prices=row.find_all(class_="price-list")
                 price_breaks=[] # []
