@@ -100,11 +100,13 @@ def echo(event):
         TME 150002559
         ARROW 1538 DES
         VERICAL 2167609
+        TTI 1545
         """
         if len(item_content)==1:
             DG=findchips(response,1588,item)
             MOU=findchips(response,1577,item)
             ARR=findchips(response,1538,item)
+            TTI=findchips(response,1545,item)
             if DG:
                 sendmsg+="DG\n"
                 for result in DG:
@@ -134,6 +136,19 @@ def echo(event):
             if ARR:
                 sendmsg+="代理商\n"
                 for result in ARR:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['stock']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n\n"
+            if TTI:
+                sendmsg+="代理商\n"
+                for result in TTI:
                     pn = result['pn']
                     mfr = result['mfr']
                     stock = result['stock']
@@ -152,6 +167,8 @@ def echo(event):
             DG=findchips_desqty(response, 1588, str(item_content[0]), int(item_content[1]))
             MOU=findchips_qty(response, 1577, str(item_content[0]), int(item_content[1]))
             ARR=findchips_desqty(response, 1538, str(item_content[0]), int(item_content[1]))
+            TTI=findchips_desqty(response, 1545, str(item_content[0]), int(item_content[1]))
+
             if DG:
                 sendmsg+="DG\n"
                 for result in DG:
@@ -191,6 +208,19 @@ def echo(event):
                         p = price['goods_price']
                         sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
                     sendmsg+="\n\n"
+            if TTI:
+                sendmsg+="代理商\n"
+                for result in TTI:
+                    pn = result['pn']
+                    mfr = result['mfr']
+                    stock = result['stock']
+                    sendmsg += "產品編號:"+str(pn)+"\n製造商:"+str(mfr)+"\n庫存數量:"+str(stock)+"\n"
+                    price_list = result['price']
+                    for price in price_list:
+                        num = price['goods_num']
+                        p = price['goods_price']
+                        sendmsg += "數量:"+str(num)+" USD價格:"+str(p)+"\n"
+                    sendmsg+="\n\n"            
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=sendmsg)
