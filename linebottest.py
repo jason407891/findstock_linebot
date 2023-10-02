@@ -167,7 +167,7 @@ def echo(event):
             DG=findchips_desqty(response, 1588, str(item_content[0]), int(item_content[1]))
             MOU=findchips_qty(response, 1577, str(item_content[0]), int(item_content[1]))
             ARR=findchips_desqty(response, 1538, str(item_content[0]), int(item_content[1]))
-            TTI=findchips_desqty(response, 1545, str(item_content[0]), int(item_content[1]))
+            TTI=findchips_qty(response, 1545, str(item_content[0]), int(item_content[1]))
 
             if DG:
                 sendmsg+="DG\n"
